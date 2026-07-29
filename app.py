@@ -1,5 +1,7 @@
 import streamlit as st
 import pdfplumber
+from utils.skill_extractor import extract_skills
+from utils.resume_score import calculate_resume_score
 
 st.set_page_config(
     page_title="ResumeIQ-AI",
@@ -22,7 +24,7 @@ st.divider()
 
 st.header("🚀 Features")
 
-st.markdown(""""
+st.markdown("""
 - 📄 Upload Resume (PDF)
 - 🤖  AI Resume Analysis
 - 🧠 Skill Extraction
@@ -52,10 +54,40 @@ if uploaded_file is not None:
             if text:
                 resume_text += text
 
-                st.subheader("📄 Resume Text")
+    st.subheader("📄 Resume Text")
 
-                st.text_area(
-                    label="Extracted Resume Text",
-                    value=resume_text,
-                    height=300
-                    )
+    st.text_area(
+        label="Extracted Resume Text",
+        value=resume_text,
+        height=300
+    )
+
+    skills = extract_skills(resume_text)
+
+    st.subheader("🧠 Extracted Skills")
+
+    if skills:
+        for skill in skills:
+            st.success(skill)
+    else:
+        st.warning("No skills detected.")
+
+    score, matched_skills, missing_skills = calculate_resume_score(skills)
+
+    st.subheader("📊 Resume Score")
+
+    st.progress(score / 100)
+
+    st.metric("Resume Score", f"{score}/100")
+
+    st.subheader("✅ Matched Skills")
+
+    for skill in matched_skills:
+        st.success(skill)
+
+    st.subheader("❌ Missing Skills")
+
+    for skill in missing_skills:
+        st.error(skill)
+
+    
