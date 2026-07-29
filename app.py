@@ -2,6 +2,7 @@ import streamlit as st
 import pdfplumber
 from utils.skill_extractor import extract_skills
 from utils.resume_score import calculate_resume_score
+from utils.job_recommender import recommend_jobs
 
 st.set_page_config(
     page_title="ResumeIQ-AI",
@@ -90,4 +91,10 @@ if uploaded_file is not None:
     for skill in missing_skills:
         st.error(skill)
 
+    st.subheader("💼 Job Recommendations")
+
+    jobs = recommend_jobs(skills)
+
+    for job in jobs:
+        st.info(job)
     
