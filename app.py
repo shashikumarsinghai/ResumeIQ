@@ -3,6 +3,7 @@ import pdfplumber
 from utils.skill_extractor import extract_skills
 from utils.resume_score import calculate_resume_score
 from utils.job_recommender import recommend_jobs
+from utils.charts import skill_chart
 
 st.set_page_config(
     page_title="ResumeIQ-AI",
@@ -10,8 +11,14 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("🤖 ResumeIQ-AI")
-st.subheader("AI-Powered Resume Analyzer & Career Recommendation System")
+col1, col2 = st.columns([3, 1])
+
+with col1:
+    st.title("🤖 ResumeIQ-AI")
+    st.subheader("AI-Powered Resume Analyzer")
+
+with col2:
+    st.metric("Version", "2.0")
 
 st.write(
     """
@@ -20,6 +27,8 @@ Welcome to **ResumeIQ-AI**.
 Upload your resume and let AI analyze your skills, evaluate your resume, and recommend the best career opportunities based on your profile.
 """
 )
+
+st.info("📄 Upload your resume to analyze skills, calculate ATS score, and get AI-powered job recommendations.")
 
 st.divider()
 
@@ -75,21 +84,34 @@ if uploaded_file is not None:
 
     score, matched_skills, missing_skills = calculate_resume_score(skills)
 
-    st.subheader("📊 Resume Score")
+    st.subheader("📊 Resume Dashboard")
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.metric("Resume Score", f"{score}/100")
+
+    with col2:
+        st.metric("Skills Found", len(skills))
+
+    with col3:
+        st.metric("Missing Skills", len(missing_skills))
 
     st.progress(score / 100)
 
-    st.metric("Resume Score", f"{score}/100")
+    col1, col2 = st.columns(2)
 
-    st.subheader("✅ Matched Skills")
+    with col1:
+        st.subheader("✅ Matched Skills")
 
-    for skill in matched_skills:
-        st.success(skill)
+        for skill in matched_skills:
+            st.success(skill)
 
-    st.subheader("❌ Missing Skills")
+    with col2:
+        st.subheader("❌ Missing Skills")
 
-    for skill in missing_skills:
-        st.error(skill)
+        for skill in missing_skills:
+            st.error(skill)      
 
     st.subheader("💼 Job Recommendations")
 
@@ -97,4 +119,35 @@ if uploaded_file is not None:
 
     for job in jobs:
         st.info(job)
+
+    # -------Charts--------
+
+    st.subheader("📊 Skills Analysis Chart")
+
+    fig = skill_chart(matched_skills, missing_skills)
     
+    st.pyplot(fig)
+
+#--------Sidebar--------
+st.sidebar.title("🤖 ResumeIQ-AI")
+
+st.sidebar.markdown("---")
+
+st.sidebar.header("📂 Resume Analyzer")
+
+st.sidebar.info(
+    """
+Upload your resume and get:
+
+✅ Skill Analysis
+
+✅ Resume Score
+
+✅ Job Recommendation
+"""
+)
+
+st.sidebar.markdown("---")
+
+st.sidebar.success("🚀 Phase 2 Dashboard.")
+
