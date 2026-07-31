@@ -4,6 +4,7 @@ from utils.skill_extractor import extract_skills
 from utils.resume_score import calculate_resume_score
 from utils.job_recommender import recommend_jobs
 from utils.charts import skill_chart
+from utils.resume_feedback import generate_feedback
 
 st.set_page_config(
     page_title="ResumeIQ-AI",
@@ -14,21 +15,21 @@ st.set_page_config(
 col1, col2 = st.columns([3, 1])
 
 with col1:
-    st.title("🤖 ResumeIQ-AI")
-    st.subheader("AI-Powered Resume Analyzer")
+    st.title("📄 ResumeIQ")
+    st.subheader("Resume Analyzer, ATS Score & Career Recommendation")
 
 with col2:
     st.metric("Version", "2.0")
 
 st.write(
     """
-Welcome to **ResumeIQ-AI**.
+Welcome to **ResumeIQ**.
 
-Upload your resume and let AI analyze your skills, evaluate your resume, and recommend the best career opportunities based on your profile.
+Upload your resume and let us analyze your skills, evaluate your resume, and recommend the best career opportunities based on your profile.
 """
 )
 
-st.info("📄 Upload your resume to analyze skills, calculate ATS score, and get AI-powered job recommendations.")
+st.info("📄 Upload your resume to analyze skills, calculate ATS score, and get career recommendations.")
 
 st.divider()
 
@@ -36,11 +37,12 @@ st.header("🚀 Features")
 
 st.markdown("""
 - 📄 Upload Resume (PDF)
-- 🤖  AI Resume Analysis
 - 🧠 Skill Extraction
 - 📊 Resume Score
 - 💼 Job Recommendation
 - 📈 Career Suggestions
+- 📋 Resume Feedback
+- 📊 Skills Visualization
 """)
 
 st.divider()
@@ -128,8 +130,15 @@ if uploaded_file is not None:
     
     st.pyplot(fig)
 
+    st.subheader("📋 Resume Feedback")
+
+    feedback = generate_feedback(score, missing_skills)
+
+    for item in feedback:
+        st.write(item)
+
 #--------Sidebar--------
-st.sidebar.title("🤖 ResumeIQ-AI")
+st.sidebar.title("📋 ResumeIQ")
 
 st.sidebar.markdown("---")
 
