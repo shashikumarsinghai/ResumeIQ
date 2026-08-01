@@ -5,10 +5,12 @@ from utils.resume_score import calculate_resume_score
 from utils.job_recommender import recommend_jobs
 from utils.charts import skill_chart
 from utils.resume_feedback import generate_feedback
+from utils.course_recommender import recommend_courses
+from utils.pdf_report import create_pdf
 
 st.set_page_config(
-    page_title="ResumeIQ-AI",
-    page_icon=":robot:",
+    page_title="ResumeIQ",
+    page_icon="📄",
     layout="wide"
 )
 
@@ -33,6 +35,8 @@ st.info("📄 Upload your resume to analyze skills, calculate ATS score, and get
 
 st.divider()
 
+#------- Features --------
+
 st.header("🚀 Features")
 
 st.markdown("""
@@ -46,6 +50,8 @@ st.markdown("""
 """)
 
 st.divider()
+
+#------- Resume Upload --------
 
 st.header("📂 Upload Your Resume")
 
@@ -66,6 +72,8 @@ if uploaded_file is not None:
             if text:
                 resume_text += text
 
+#-------Resume Text Display--------
+
     st.subheader("📄 Resume Text")
 
     st.text_area(
@@ -76,6 +84,8 @@ if uploaded_file is not None:
 
     skills = extract_skills(resume_text)
 
+#-------Skills Extraction--------
+
     st.subheader("🧠 Extracted Skills")
 
     if skills:
@@ -85,6 +95,8 @@ if uploaded_file is not None:
         st.warning("No skills detected.")
 
     score, matched_skills, missing_skills = calculate_resume_score(skills)
+
+#-------Resume Dashboard--------
 
     st.subheader("📊 Resume Dashboard")
 
@@ -115,6 +127,7 @@ if uploaded_file is not None:
         for skill in missing_skills:
             st.error(skill)      
 
+#-------Job Recommendations--------
     st.subheader("💼 Job Recommendations")
 
     jobs = recommend_jobs(skills)
@@ -122,7 +135,33 @@ if uploaded_file is not None:
     for job in jobs:
         st.info(job)
 
-    # -------Charts--------
+# -------Course Recommendations--------
+
+    st.subheader("📚 Recommended Courses")
+
+    courses = recommend_courses(missing_skills)
+
+    if courses:
+        for course in courses:
+            st.info(course)
+
+    else:
+        st.success("🎉 No course recommendations. Your resume already covers all required skills!")
+
+#-------Career Tips--------
+
+    st.header("🎯 Career Tips")
+
+    if score >= 80:
+        st.success("Excellent Resume! Keep updating your projects and certifications.")
+
+    elif score >= 60:
+        st.warning("Good Resume! Improve missing skills to increase your ATS score.")
+
+    else:
+        st.error("Your resume needs improvement. Learn the recommended Courses and add more projects.")          
+
+# -------Charts--------
 
     st.subheader("📊 Skills Analysis Chart")
 
@@ -130,12 +169,28 @@ if uploaded_file is not None:
     
     st.pyplot(fig)
 
+# -------Resume Feedback--------
+
     st.subheader("📋 Resume Feedback")
 
     feedback = generate_feedback(score, missing_skills)
 
     for item in feedback:
         st.write(item)
+
+# -------Download PDF Report--------
+
+    st.subheader("📄 Download Resume Report")
+
+    pdf_file = create_pdf(score, matched_skills, missing_skills, jobs)
+
+    with open(pdf_file, "rb") as file:
+        st.download_button(
+            label="Download Resume Report",
+            data=file,
+            file_name="Resume_Report.pdf",
+            mime="application/pdf"
+        )        
 
 #--------Sidebar--------
 st.sidebar.title("📋 ResumeIQ")
