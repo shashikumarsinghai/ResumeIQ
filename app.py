@@ -18,20 +18,18 @@ col1, col2 = st.columns([3, 1])
 
 with col1:
     st.title("📄 ResumeIQ")
-    st.subheader("Resume Analyzer, ATS Score & Career Recommendation")
+    st.caption("Smart Resume Analyzer • ATS Score • Career Guidance")
 
 with col2:
     st.metric("Version", "2.0")
 
 st.write(
-    """
-Welcome to **ResumeIQ**.
-
-Upload your resume and let us analyze your skills, evaluate your resume, and recommend the best career opportunities based on your profile.
+"""
+Upload your resume to receive an ATS score, technical skill analysis, personalized job recommendations, course suggestions, and a downloadable professional PDF report.
 """
 )
 
-st.info("📄 Upload your resume to analyze skills, calculate ATS score, and get career recommendations.")
+st.info("📄 Upload your resume below to get started!")
 
 st.divider()
 
@@ -53,6 +51,7 @@ st.divider()
 
 #------- Resume Upload --------
 
+st.markdown("---")
 st.header("📂 Upload Your Resume")
 
 uploaded_file = st.file_uploader(
@@ -74,7 +73,7 @@ if uploaded_file is not None:
 
 #-------Resume Text Display--------
 
-    st.subheader("📄 Resume Text")
+    st.subheader("📄 Extracted Resume Text")
 
     st.text_area(
         label="Extracted Resume Text",
@@ -86,7 +85,7 @@ if uploaded_file is not None:
 
 #-------Skills Extraction--------
 
-    st.subheader("🧠 Extracted Skills")
+    st.subheader("🧠 Skills Analysis")
 
     if skills:
         for skill in skills:
@@ -98,7 +97,7 @@ if uploaded_file is not None:
 
 #-------Resume Dashboard--------
 
-    st.subheader("📊 Resume Dashboard")
+    st.subheader("📊 Resume Analysis Dashboard")
 
     col1, col2, col3 = st.columns(3)
 
@@ -111,24 +110,24 @@ if uploaded_file is not None:
     with col3:
         st.metric("Missing Skills", len(missing_skills))
 
-    st.progress(score / 100)
+    st.write(f"### Overall ATS Score : {score}/100")
 
     col1, col2 = st.columns(2)
 
     with col1:
-        st.subheader("✅ Matched Skills")
+        st.subheader("✅ Detected Skills")
 
         for skill in matched_skills:
             st.success(skill)
 
     with col2:
-        st.subheader("❌ Missing Skills")
+        st.subheader("📌 Recommended Skills")
 
         for skill in missing_skills:
             st.error(skill)      
 
 #-------Job Recommendations--------
-    st.subheader("💼 Job Recommendations")
+    st.subheader("💼 Recommendations for Job Roles")
 
     jobs = recommend_jobs(skills)
 
@@ -137,7 +136,7 @@ if uploaded_file is not None:
 
 # -------Course Recommendations--------
 
-    st.subheader("📚 Recommended Courses")
+    st.subheader("📚 Learning Resources")
 
     courses = recommend_courses(missing_skills)
 
@@ -150,7 +149,7 @@ if uploaded_file is not None:
 
 #-------Career Tips--------
 
-    st.header("🎯 Career Tips")
+    st.header("🎯 Career Guidance")
 
     if score >= 80:
         st.success("Excellent Resume! Keep updating your projects and certifications.")
@@ -163,7 +162,7 @@ if uploaded_file is not None:
 
 # -------Charts--------
 
-    st.subheader("📊 Skills Analysis Chart")
+    st.subheader("📊 Skills Distribution")
 
     fig = skill_chart(matched_skills, missing_skills)
     
@@ -180,15 +179,15 @@ if uploaded_file is not None:
 
 # -------Download PDF Report--------
 
-    st.subheader("📄 Download Resume Report")
+    st.subheader("📄 Download Professional Resume Report")
 
     pdf_file = create_pdf(score, matched_skills, missing_skills, jobs)
 
     with open(pdf_file, "rb") as file:
         st.download_button(
-            label="Download Resume Report",
+            label="Download Professional Resume Report",
             data=file,
-            file_name="Resume_Report.pdf",
+            file_name="Professional_Resume_Report.pdf",
             mime="application/pdf"
         )        
 
@@ -197,7 +196,7 @@ st.sidebar.title("📋 ResumeIQ")
 
 st.sidebar.markdown("---")
 
-st.sidebar.header("📂 Resume Analyzer")
+st.sidebar.header("DASHBOARD")
 
 st.sidebar.info(
     """
@@ -213,5 +212,5 @@ Upload your resume and get:
 
 st.sidebar.markdown("---")
 
-st.sidebar.success("🚀 Phase 2 Dashboard.")
+st.sidebar.success("🚀 ResumeIQ v2.0")
 
