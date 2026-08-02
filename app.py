@@ -20,9 +20,6 @@ with col1:
     st.title("📄 ResumeIQ")
     st.caption("Smart Resume Analyzer • ATS Score • Career Guidance")
 
-with col2:
-    st.metric("Version", "2.0")
-
 st.write(
 """
 Upload your resume to receive an ATS score, technical skill analysis, personalized job recommendations, course suggestions, and a downloadable professional PDF report.
