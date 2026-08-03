@@ -35,20 +35,20 @@ ResumeIQ is a Streamlit-based web application that analyzes resumes, calculates 
 ## 📂 Project Structure
 
 ```text
-ResumeIQ
+ResumeIQ/
 │
 ├── app.py
 ├── requirements.txt
 ├── README.md
 │
-├── screenshots
+├── screenshots/
 │   ├── home.png
 │   ├── upload.png
 │   ├── skills.png
 │   ├── recommendations.png
 │   └── report.png
 │
-├── utils
+├── utils/
 │   ├── charts.py
 │   ├── course_recommender.py
 │   ├── job_recommender.py
@@ -57,7 +57,7 @@ ResumeIQ
 │   ├── resume_score.py
 │   └── skill_extractor.py
 │
-└── notebooks
+└── notebooks/
 ```
 
 ---
@@ -101,38 +101,6 @@ Run the application
 ```bash
 streamlit run app.py
 ```
-
----
-
-## 📸 Application Screenshots
-
-### 🏠 Home Page
-
-![Home](screenshots/home.png)
-
----
-
-### 📄 Resume Upload
-
-![Upload](screenshots/upload.png)
-
----
-
-### 🧠 Skill Analysis
-
-![Skills](screenshots/skills.png)
-
----
-
-### 💼 Recommendations
-
-![Recommendations](screenshots/recommendations.png)
-
----
-
-### 📄 PDF Report
-
-![Report](screenshots/report.png)
 
 ---
 
