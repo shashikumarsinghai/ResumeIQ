@@ -21,6 +21,18 @@ ResumeIQ is a Streamlit-based web application that analyzes resumes, calculates 
 
 ---
 
+## 🌐 Live Demo
+
+🚀 Try ResumeIQ here:
+
+**https://resumeiq-shashi.streamlit.app**
+
+## 🔗 GitHub Repository
+
+https://github.com/shashikumarsinghai/ResumeIQ
+
+---
+
 ## 🛠️ Tech Stack
 
 - **Python**
